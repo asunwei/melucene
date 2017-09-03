@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Test;
+
 public class BookDaoImpl implements BookDao{
 
 	public List<Book> queryBookList() {
@@ -23,7 +25,7 @@ public class BookDaoImpl implements BookDao{
 			//加载数据库驱动
 			Class.forName("com.mysql.jdbc.Driver");
 			//连接数据库
-			con =DriverManager.getConnection("jdbc:mysql://localhost:3306/solr", "root", "root");
+			con =DriverManager.getConnection("jdbc:mysql://localhost:3306/testgrp", "root", "root");
 			//sql语句
 			String sql = "select * from book";
 			//创建Preparedstatement
