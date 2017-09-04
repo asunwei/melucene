@@ -9,6 +9,8 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field.Store;
+import org.apache.lucene.document.FloatField;
+import org.apache.lucene.document.StoredField;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.IOContext;
@@ -37,11 +39,16 @@ public class CreateIndexTest {
 			 * 图书 id、name、price、pic、desc
 			 * Store.YES 表示存储到文档域中
 			 */
-			document.add(new TextField("id",book.getId().toString(),Store.YES));
+			//图书ID，不分词，不索引，存储    StoredField(FieldName, FieldValue)
+			document.add(new StoredField("id", book.getId().toString()));
+			//图书名称， 分词，索引，存储  TextField(FieldName, FieldValue, Store.YES/NO)
 			document.add(new TextField("name",book.getName().toString(),Store.YES));
-			document.add(new TextField("price",book.getPrice().toString(),Store.YES));
-			document.add(new TextField("pic",book.getPic().toString(),Store.YES));
-			document.add(new TextField("desc",book.getDesc().toString(),Store.YES));
+			//图书的价格， 分词，索引，存储  FloatField(FieldName, FieldValue,Store.YES)
+			document.add(new FloatField("price", book.getPrice(), Store.YES));
+			//图书的图片，不分词，不索引，储存  StoredField(FieldName, FieldValue)
+			document.add(new StoredField("pic",book.getPic().toString()));
+			//图书的描述， 分词，索引，不储存  TextField(FieldName, FieldValue, Store.YES/NO)
+			document.add(new TextField("desc",book.getDesc().toString(),Store.NO));
 			//把Document到list中
 			documents.add(document);
 		}
